@@ -1,110 +1,125 @@
 #include <stdio.h>
 
-// Tamanho do tabuleiro
-#define TABULEIRO 8
+// -------------------- Constantes --------------------
+#define MOV_BISPO 5
+#define MOV_TORRE 5
+#define MOV_RAINHA 8
 
-// Constantes de movimentação
-const int MAX_DIAGONAL = 7;  // Bispo
-const int MAX_HORIZONTAL = 7; // Torre
-const int MAX_LATERAL = 7;   // Rainha
+// -------------------- Nível Novato --------------------
 
-// ---------------- Nível Novato ----------------
-
-// Função de movimentação do Bispo (diagonal) usando FOR
-void movimentarBispo() {
-    printf("Movimentação do Bispo (FOR - Diagonal):\n");
-    for (int i = 1; i <= MAX_DIAGONAL; i++) {
-        printf("Diagonal (%d, %d)\n", i, i);
+// Movimentação do Bispo com FOR (Diagonal superior direita)
+void movimentarBispoLoop() {
+    printf("Movimento do Bispo (FOR - Diagonal Superior Direita):\n");
+    for (int i = 0; i < MOV_BISPO; i++) {
+        printf("Cima\nDireita\n\n");
     }
-    printf("\n");
 }
 
-// Função de movimentação da Torre (direita) usando WHILE
-void movimentarTorre() {
-    printf("Movimentação da Torre (WHILE - Direita):\n");
-    int i = 1;
-    while (i <= MAX_HORIZONTAL) {
-        printf("Direita (0, %d)\n", i);
+// Movimentação da Torre com WHILE (Direita)
+void movimentarTorreLoop() {
+    printf("Movimento da Torre (WHILE - Direita):\n");
+    int i = 0;
+    while (i < MOV_TORRE) {
+        printf("Direita\n");
         i++;
     }
     printf("\n");
 }
 
-// Função de movimentação da Rainha (esquerda) usando DO-WHILE
-void movimentarRainha() {
-    printf("Movimentação da Rainha (DO-WHILE - Esquerda):\n");
-    int i = 1;
+// Movimentação da Rainha com DO-WHILE (Esquerda)
+void movimentarRainhaLoop() {
+    printf("Movimento da Rainha (DO-WHILE - Esquerda):\n");
+    int i = 0;
     do {
-        printf("Esquerda (0, -%d)\n", i);
+        printf("Esquerda\n");
         i++;
-    } while (i <= MAX_LATERAL);
+    } while (i < MOV_RAINHA);
     printf("\n");
 }
 
-// ---------------- Nível Aventureiro ----------------
+// -------------------- Nível Aventureiro --------------------
 
-// Movimentação do Cavalo (em L) com loops
-void movimentarCavalo() {
-    printf("Movimentação do Cavalo (Loops Aninhados - L):\n");
+// Cavalo em L usando loops aninhados (FOR + WHILE)
+void movimentarCavaloAninhado() {
+    printf("Movimento do Cavalo (Loops Aninhados - Baixo e Esquerda em L):\n");
 
-    // Todos os possíveis movimentos do cavalo em L
-    int movimentos[8][2] = {
-        {2, 1}, {1, 2}, {-1, 2}, {-2, 1},
-        {-2, -1}, {-1, -2}, {1, -2}, {2, -1}
-    };
-
-    for (int i = 0; i < 8; i++) {
-        int dx = movimentos[i][0];
-        int dy = movimentos[i][1];
-        printf("L (%d, %d)\n", dx, dy);
+    for (int i = 0; i < 2; i++) { // 2 para simular movimento para baixo
+        int j = 0;
+        while (j < 1) {           // 1 para movimento para esquerda
+            printf("Baixo\nBaixo\nEsquerda\n\n");  // Forma de L
+            j++;
+        }
     }
-    printf("\n");
 }
 
-// ---------------- Nível Mestre ----------------
+// -------------------- Nível Mestre --------------------
 
-// Movimentação recursiva do Bispo
-void movimentarBispoRecursivo(int passo) {
-    if (passo > MAX_DIAGONAL) return;
-
-    printf("Recursivo Diagonal (%d, %d)\n", passo, passo);
-    movimentarBispoRecursivo(passo + 1);
+// Função recursiva para movimentar o Bispo
+void bispoRecursivo(int passo) {
+    if (passo >= MOV_BISPO) return;
+    printf("Cima\nDireita\n\n");
+    bispoRecursivo(passo + 1);
 }
 
-// Movimentação avançada do Cavalo com continue/break e variáveis múltiplas
-void movimentarCavaloAvancado() {
-    printf("Movimentação Avançada do Cavalo (com continue e break):\n");
+// Função recursiva para movimentar a Torre
+void torreRecursiva(int passo) {
+    if (passo >= MOV_TORRE) return;
+    printf("Direita\n");
+    torreRecursiva(passo + 1);
+}
 
-    for (int x = 0; x < TABULEIRO; x++) {
-        for (int y = 0; y < TABULEIRO; y++) {
+// Função recursiva para movimentar a Rainha
+void rainhaRecursiva(int passo) {
+    if (passo >= MOV_RAINHA) return;
+    printf("Esquerda\n");
+    rainhaRecursiva(passo + 1);
+}
+
+// Cavalo com múltiplas condições, continue e break
+void cavaloAvancado() {
+    printf("Movimento do Cavalo (Avançado com continue e break):\n");
+
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
             if ((x + y) % 2 == 0) {
-                continue; // Pula casas pares (só por exemplo)
+                continue; // Pula casas com soma par
             }
 
             if (x + y > 10) {
-                break; // Limita soma de coordenadas
+                break; // Para se a soma for maior que 10
             }
 
-            printf("Posição possível (%d, %d)\n", x, y);
+            // Simula L para cima e direita
+            if ((x == 2 && y == 1) || (x == 1 && y == 2)) {
+                printf("Cima\nCima\nDireita\n\n");
+            }
         }
     }
-
-    printf("\n");
 }
 
-// ---------------- Função principal ----------------
+// -------------------- Função Principal --------------------
 
 int main() {
-    movimentarBispo();
-    movimentarTorre();
-    movimentarRainha();
-    movimentarCavalo();
+    // Nível Novato
+    movimentarBispoLoop();
+    movimentarTorreLoop();
+    movimentarRainhaLoop();
 
-    printf("Movimentação Recursiva do Bispo:\n");
-    movimentarBispoRecursivo(1);
-    printf("\n");
+    // Nível Aventureiro
+    movimentarCavaloAninhado();
 
-    movimentarCavaloAvancado();
+    // Nível Mestre
+    printf("Bispo com Recursividade:\n");
+    bispoRecursivo(0);
+
+    printf("\nTorre com Recursividade:\n");
+    torreRecursiva(0);
+
+    printf("\nRainha com Recursividade:\n");
+    rainhaRecursiva(0);
+
+    printf("\nMovimentação Avançada do Cavalo:\n");
+    cavaloAvancado();
 
     return 0;
 }
